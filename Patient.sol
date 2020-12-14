@@ -18,6 +18,7 @@ contract PatientRecord {
     uint id; //Id for the patient record
     Patient private patient; // The patient we are referring to
     address public recordOwner; //The address of the owner
+    mapping(address => bool) public doctors; //Mapping of doctors for access to record
 
     // ** Part 4 ** Modifiers **
     // Like a protocol that a function should follow
@@ -28,12 +29,20 @@ contract PatientRecord {
         );
         _;
     }
+
+    modifier onlyAccessors() {
+        require(
+            msg.sender == recordOwner || doctors[msg.sender] == true,
+            "You are not the owner of this record nor a doctor of the patient!"
+        );
+        _;
+    }
     // ** Part 6 ** Functions **
     constructor() {
         recordOwner = msg.sender;
     }
     
-    function getPatientName() public view returns (string memory) {
+    function getPatientName() public view onlyAccessors returns (string memory) {
         return patient.name;
     }
       
@@ -41,4 +50,9 @@ contract PatientRecord {
     function setPatientName(string memory name) public onlyOwner {
         patient.name = name;
     }
+    
+    function addDoctor(address doctor) public onlyOwner {
+        doctors[doctor] = true;
+    }
+    
 }
