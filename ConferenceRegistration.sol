@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0 
-
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.17 <0.9.0;
 
 /** 
  * @title ConferenceRegistration
@@ -102,7 +101,7 @@ contract ConferenceRegistration {
         registrations[msg.sender].payment = 0; // Update payment set to 0
         noRegistrations--; // Decrement the registrations
         
-        address payable recipient = msg.sender; // Cast the recipeient address to payable
+        address payable recipient = payable(msg.sender); // Cast the recipeient address to payable
         recipient.transfer(initialBalance); // Transfer the balance to the recipient
     }
     
