@@ -47,7 +47,7 @@ contract ConferenceRegistration {
     }
 
     /*
-     * Check if maximum number of registrations is already reached
+     * Check if the person provided enough payment
      */
     modifier enoughPayment() {
         require(
