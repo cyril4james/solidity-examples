@@ -13,6 +13,7 @@ contract Blockchain {
         string name;
         uint grade;
         Specializations specialization;
+        bool hasPaidTuition;
     }
 
     mapping(address => Student) public students;
@@ -45,6 +46,11 @@ contract Blockchain {
 
     function addGrade (address _student, uint _grade) public isTeacher {
         students[_student].grade = _grade;
+    }
+
+    function payTuition() public payable isStudent { 
+        require(msg.value >= tuitionFee, "inadequate payment for tuition");
+        students[msg.sender].hasPaidTuition = true;
     }
 
     function viewTeacher() external view returns(address) {
